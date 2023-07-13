@@ -83,16 +83,6 @@ def public_key_gen(private_key):
     return key
 
 
-def add_digits(num, p):
-    return (num - 1) % p if num > 0 else 0
-
-def hashtard(m, p):
-    m_hash = hashlib.sha256(str.encode(m))
-    num = int.from_bytes(m_hash.digest(), 'big')
-    num = add_digits(num, p)
-    return num
-
-
 def sign_message(private_key, message: bytes):
     r = private_key_gen()
     R = public_key_gen(r)

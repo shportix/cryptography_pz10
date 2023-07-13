@@ -92,7 +92,8 @@ def sign_message(private_key, message: bytes):
     return serialize_signature(s, e)
 
 
-def verify(public_key, s, e, message: bytes):
+def verify(public_key, signature, message: bytes):
+    s, e = deserialize_signature(signature)
     m = hashlib.sha256(message).digest()
     g = base_point_g_get()
     g = scalar_multiple(s, g)
@@ -137,8 +138,7 @@ if __name__ == '__main__':
     string = b"hello world"
     signature = sign_message(private_key, string)
     print(f"signature: {signature}")
-    s, e = deserialize_signature(signature)
-    res = verify(public_key, s, e, string)
+    res = verify(public_key, signature, string)
     print(f"is valid: {res}")
     print()
 
